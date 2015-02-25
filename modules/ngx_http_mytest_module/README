@@ -1,0 +1,7 @@
+recompile and install
+
+./configure --prefix=/usr/local/nginx  --add-module=# absolute path # --without-http_rewrite_module --with-http_ssl_module --with-cc-opt="-Wno-deprecated-declarations" 
+
+make
+
+sudo make install

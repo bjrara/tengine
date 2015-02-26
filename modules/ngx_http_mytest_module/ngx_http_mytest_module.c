@@ -4,6 +4,26 @@
 
 static ngx_int_t ngx_http_mytest_handler(ngx_http_request_t *r);
 
+typedef struct {
+	ngx_str_t test_str;
+	ngx_int_t test_num;
+	ngx_flag_t test_flag;
+	size_t test_size;
+	ngx_array_t *test_str_array;
+	ngx_array_t *test_keyval;
+	off_t test_off;
+	ngx_msec_t test_msec;
+	time_t test_sec;
+	ngx_bufs_t test_bufs;
+	ngx_uint_t test_enum_seq;
+	ngx_uint_t test_bitmask;
+	ngx_uint_t test_access;
+	ngx_path_t *test_path;
+	
+	ngx_str_t my_config_str;
+	ngx_int_t my_config_num;
+} ngx_http_mytest_conf_t;
+
 static char *ngx_http_mytest(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 {
 	ngx_http_core_loc_conf_t *clcf;
@@ -16,7 +36,7 @@ static char *ngx_http_mytest(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 static ngx_command_t ngx_http_mytest_commands[] = {
 	{
 		ngx_string("mytest"),
-		NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_HTTP_LMT_CONF|NGX_CONF_NOARGS,
+		NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_NOARGS,
 		ngx_http_mytest, // ngx_command_t setter
 		NGX_HTTP_LOC_CONF_OFFSET,
 		0,
@@ -66,19 +86,39 @@ static ngx_int_t ngx_http_mytest_handler(ngx_http_request_t *r)
 	// 最后一步为发送包体，发送结束后 HTTP 框架会调用 ngx_http_finalize_request 方法结束请求
 	return ngx_http_output_filter(r, &out);
 }
-
+/*
+static void *ngx_http_mytest_create_loc_conf(ngx_conf_t *cf)
+{
+	ngx_http_mytest_conf_t *mycf;
+	mycf = (ngx_http_mytest_conf_t *)ngx_pcalloc(cf -> pool, sizeof(ngx_http_mytest_conf_t));
+	if (mycf == NULL) {
+		return NULL;
+	}
+	
+	mycf -> test_flag = NGX_CONF_UNSET;
+	mycf -> test_num = NGX_CONF_UNSET;
+	mycf -> test_str_array = NGX_CONF_UNSET_PTR;
+	mycf -> test_keyval = NULL;
+	mycf -> test_off = NGX_CONF_UNSET;
+	mycf -> test_msec = NGX_CONF_UNSET_MSEC;
+	mycf -> test_sec = NGX_CONF_UNSET;
+	mycf -> test_size = NGX_CONF_UNSET_SIZE;
+	
+	return mycf;
+}
+*/
 // 如果没有什么工作是必须在 http 框架初始化时完成的，那就不必实现 ngx_http_module_t 的回调方法
 static ngx_http_module_t ngx_http_mytest_module_ctx = {
 	NULL,		/* preconfiguration */
 	NULL,		/* postconfiguration */
 	
-	NULL,		/* create main configuration */
+	NULL,		/* create main configuration, http{} */
 	NULL,		/* init main configuration */
 	
-	NULL,		/* create server configuration */
+	NULL,		/* create server configuration, http{}, server{} */
 	NULL,		/* merge server configuration */
 	
-	NULL,		/* create location configuration */
+	NULL,		/* create location configuration, http{}, server{}, location{} */
 	NULL,		/* merge location configuration */
 };
 

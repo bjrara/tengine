@@ -1,6 +1,6 @@
 recompile and install
 
-./configure --prefix=/usr/local/nginx  --add-module=/Users/zhoumy/Documents/workspace/tengine/modules/ngx_http_mytest_module --without-http_rewrite_module --with-http_ssl_module --with-cc-opt="-Wno-deprecated-declarations"
+./configure --prefix=/usr/local/nginx  --add-module=/Users/zhoumy/Documents/workspace/slb-project/tengine/modules/ngx_http_mytest_module --without-http_rewrite_module --with-http_ssl_module --with-cc-opt="-Wno-deprecated-declarations"
 
 make
 

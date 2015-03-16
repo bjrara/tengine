@@ -1,0 +1,19 @@
+************************************************  install command  ************************************************
+
+install command
+
+./configure --prefix=/usr/local/nginx --without-http_rewrite_module --with-http_ssl_module --with-cc-opt="-Wno-deprecated-declarations" --add-module=./modules/ngx_http_dyups_module
+
+******************************************  add/update upstream command  ******************************************
+
+add/update upstream command
+
+curl -d "server 127.0.0.1:8888;check interval=3000 rise=2 fall=5 timeout=1000 type=http;check_http_expect_alive http_2xx http_3xx;" 127.0.0.1:8090/upstream/cluster
+
+******************************************    delete upstream command    ******************************************
+
+delete upstream command
+
+curl -i -X DELETE 127.0.0.1:8081/upstream/dyhost
+
+******************************************************  end  ******************************************************

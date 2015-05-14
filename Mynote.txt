@@ -1,0 +1,6 @@
+prerequisite
+put pcre under /usr/local
+install luajit
+
+configure
+./configure --add-module=./modules/ngx_http_dyups_module --with-pcre=/usr/local/pcre --with-http_ssl_module --with-cc-opt="-Wno-deprecated-declarations" --with-http_lua_module --with-luajit-lib=/usr/local/lib/ --with-luajit-inc=/usr/local/include/luajit-2.0/ --with-lua-inc=/usr/local/include/luajit-2.0/ --with-lua-lib=/usr/local/lib/ --with-ld-opt=-Wl,-rpath,/usr/local/lib
